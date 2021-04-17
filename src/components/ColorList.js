@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import Color from "./Color"
+import EditMenu from "./EditMenu"
 const initialColor = {
   color: "",
   code: { hex: "" }
@@ -17,10 +18,20 @@ const ColorList = ({ colors, updateColors }) => {
 
   const saveEdit = e => {
     e.preventDefault();
+    axios.put(`http://localhost:5000/api/colors/${colorToEdit}`, colorToEdit)
+    .then( res => {
+      console.log(res)
+    } )
+    .catch( err => console.log(err))
 
   };
 
   const deleteColor = color => {
+    axios.put(`http://localhost:5000/api/colors/${color}`)
+    .then( res => {
+      console.log(res)
+    } )
+    .catch( err => console.log(err))
   };
 
   return (

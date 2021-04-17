@@ -1,4 +1,4 @@
-import axios from "axios";
+import {axiosWithAuth} from '../helpers/axiosWithAuth'
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 
@@ -17,7 +17,7 @@ const handleChange = e => {
 
 const handleSubmit = e => {
   e.preventDefault();
-  axios.post('http://localhost:5000/api/login', form)
+  axiosWithAuth().post('http://localhost:5000/api/login', form)
   .then( res => {
     console.log(res)
     localStorage.setItem( 'token', res.data.payload)
@@ -25,7 +25,7 @@ const handleSubmit = e => {
   } )
   .catch( err => {
     console.log(err)
-    setError('Username or Password Incorect')
+    setError('Username or Password not valid')
   })
 }
 
