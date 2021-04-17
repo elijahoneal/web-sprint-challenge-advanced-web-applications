@@ -4,7 +4,7 @@ import { useHistory } from "react-router";
 
 const Login = () => {
   const initialState = { username: '', password:'' }
-  const { push } = useHistory()
+  const history = useHistory()
 
   const [form , setForm] = useState(initialState)
   const [error , setError] =useState('')
@@ -17,11 +17,11 @@ const handleChange = e => {
 
 const handleSubmit = e => {
   e.preventDefault();
-  axiosWithAuth().post('http://localhost:5000/api/login', form)
+  axiosWithAuth().post('/login', form)
   .then( res => {
     console.log(res)
     localStorage.setItem( 'token', res.data.payload)
-    push('/bubble')
+    history.push('/colors')
   } )
   .catch( err => {
     console.log(err)

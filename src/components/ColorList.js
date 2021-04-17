@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import axios from "axios";
 import Color from "./Color"
 import EditMenu from "./EditMenu"
+import { useHistory } from "react-router";
+import { axiosWithAuth } from "../helpers/axiosWithAuth";
+
 const initialColor = {
   color: "",
   code: { hex: "" }
 };
 
 const ColorList = ({ colors, updateColors }) => {
+  const {push} = useHistory()
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
@@ -18,9 +22,18 @@ const ColorList = ({ colors, updateColors }) => {
 
   const saveEdit = e => {
     e.preventDefault();
-    axios.put(`http://localhost:5000/api/colors/${colorToEdit}`, colorToEdit)
+    setEditing(false)
+    axiosWithAuth().put(`/colors/${colorToEdit.id}`, colorToEdit)
     .then( res => {
       console.log(res)
+      const modifiedColor = res.data
+      updateColors(colors.map( color =>{ 
+        if(color.id === modifiedColor.id){
+          return modifiedColor
+        }
+        return color
+    } ))
+      push(`/colors/${colorToEdit.id}`)
     } )
     .catch( err => console.log(err))
 
