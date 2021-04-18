@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import Color from "./Color"
 import EditMenu from "./EditMenu"
 import { useHistory } from "react-router";
@@ -22,10 +21,10 @@ const ColorList = ({ colors, updateColors }) => {
 
   const saveEdit = e => {
     e.preventDefault();
-    setEditing(false)
     axiosWithAuth().put(`/colors/${colorToEdit.id}`, colorToEdit)
     .then( res => {
       console.log(res)
+      setEditing(false)
       const modifiedColor = res.data
       updateColors(colors.map( color =>{ 
         if(color.id === modifiedColor.id){
@@ -40,9 +39,11 @@ const ColorList = ({ colors, updateColors }) => {
   };
 
   const deleteColor = color => {
-    axios.put(`http://localhost:5000/api/colors/${color}`)
+    axiosWithAuth().delete(`http://localhost:5000/api/colors/${color.id}`)
     .then( res => {
       console.log(res)
+      const newColors = colors.filter( color => color.id !== Number(res.data) )
+      updateColors(newColors)
     } )
     .catch( err => console.log(err))
   };
