@@ -10,7 +10,7 @@ const initialColor = {
 };
 
 const ColorList = ({ colors, updateColors }) => {
-  const {push} = useHistory()
+  const history = useHistory()
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
@@ -32,7 +32,7 @@ const ColorList = ({ colors, updateColors }) => {
         }
         return color
     } ))
-      push(`/colors/${colorToEdit.id}`)
+      history.push(`/colors/${colorToEdit.id}`)
     } )
     .catch( err => console.log(err))
 

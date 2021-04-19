@@ -16,7 +16,7 @@ const BubblePage = () => {
   },[] )
 
   return (
-    <div className="container">
+    <div className="container" data-testid="container">
       <ColorList colors={colorList} updateColors={setColorList} />
       <Bubbles colors={colorList} />
     </div>
