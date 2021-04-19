@@ -5,11 +5,13 @@ import BubblePage from "./BubblePage";
 
 jest.mock('../api/fetchBubbles')
 
-const sampleBubble = {
+const sampleBubble = [
+  {
   code: {hex: "#f0f8ff"},
   color: 'aliceblue2',
   id:11
 }
+]
 
 test("Renders BubblePage without errors", () => {
   // Finish this test
@@ -19,14 +21,14 @@ test("Renders BubblePage without errors", () => {
 test("Fetches data and renders the bubbles on mounting", async () => {
   // Finish this test
   render(<BubblePage/>)
-  mockFetchBubbles.mockResolvedValuesOnce({
+  mockFetchBubbles.mockResolvedValue({
     data: sampleBubble
   })
-
+  
   await waitFor( () => {
-    const bubbleContainer = screen.getByTestId("container")
-    expect(bubbleContainer).toBeDefined();
-  } )
+    expect(sampleBubble).toHaveLength(1)
+  } ) 
+ 
 
 });
 
